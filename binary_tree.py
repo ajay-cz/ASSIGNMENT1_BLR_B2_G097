@@ -14,30 +14,32 @@ class EmployeeBinaryTreeNode(object):
         :param left: 
         :param right: 
         """
-        self.__left = None
-        self.__right = None
-        self.__swipe_count = 1
-        self.__employee_id = emp_id
+        self.left = None
+        self.right = None
+        self.swipe_count = 1
+        self.employee_id = emp_id
 
-    # def __str__(self):
-    #     """
-    #     Prints the contents of the current node
-    #     :return:
-    #     """
-    #     return str(self.__employee_id)
+    def __str__(self):
+        """
+        Prints the contents of the current node
+        :return:
+        """
+        return str(self.employee_id)
 
 
 class EmployeeBinaryTree(object):
     """ Class that represents a BinaryTree
 
     """
+    __root = None
+    emp_count = 0
 
     def __init__(self):
         """
 
         """
-        self.__root = None
-        self.emp_count = 0
+        pass
+
 
 
     IN_ORDER_TEMPLATE = "{left} {curr} {right}"
@@ -52,9 +54,9 @@ class EmployeeBinaryTree(object):
         """
         if node is None:
             return ""
-        left = self.__print_in_order_util(node.__left)
-        curr = str(node.__employee_id)
-        right = self.__print_in_order_util(node.__right)
+        left = self.__print_in_order_util(node.left)
+        curr = str(node.employee_id)
+        right = self.__print_in_order_util(node.right)
         return left + " " + curr + " " + right
 
     def __print_tree_util(self, node, template):
@@ -66,9 +68,9 @@ class EmployeeBinaryTree(object):
         """
         if node is None:
             return ""
-        left = self.__print_in_order_util(node.__left)
-        curr = str(node.__employee_id)
-        right = self.__print_in_order_util(node.__right)
+        left = self.__print_in_order_util(node.left)
+        curr = str(node.employee_id)
+        right = self.__print_in_order_util(node.right)
         return template.format(left=left, curr=curr, right=right)
 
     def __search_util(self, node, value):
@@ -80,12 +82,12 @@ class EmployeeBinaryTree(object):
         """
         if node is None:
             return None
-        if node.__employee_id == value:
+        if node.employee_id == value:
             return node
-        if value < node.__employee_id:
-            return self.__search_util(node.__left, value)
-        if value > node.__employee_id:
-            return self.__search_util(node.__right, value)
+        if value < node.employee_id:
+            return self.__search_util(node.left, value)
+        if value > node.employee_id:
+            return self.__search_util(node.right, value)
 
     def __add_node_util(self, node, data):
         """not
@@ -94,21 +96,20 @@ class EmployeeBinaryTree(object):
         :param data:
         :return:
         """
-        print(node)
-        if data < node.__employee_id:
-            if node.__left is None:
-                node.__left = EmployeeBinaryTreeNode(data)
+        if data < node.employee_id:
+            if node.left is None:
+                node.left = EmployeeBinaryTreeNode(data)
                 self.emp_count += 1
             else:
-                self.__add_node_util(node.__left, data)
-        elif data > node.__employee_id:
-            if node.__right is None:
-                node.__right = EmployeeBinaryTreeNode(data)
+                self.__add_node_util(node.left, data)
+        elif data > node.employee_id:
+            if node.right is None:
+                node.right = EmployeeBinaryTreeNode(data)
                 self.emp_count += 1
             else:
-                self.__add_node_util(node.__right, data)
+                self.__add_node_util(node.right, data)
         else:
-            node.__swipe_count += 1
+            node.swipe_count += 1
 
     def __print_pre_order_util(self, node):
         """
@@ -118,9 +119,9 @@ class EmployeeBinaryTree(object):
         """
         if node is None:
             return ""
-        curr = str(node.__employee_id)
-        left = self.__print_in_order_util(node.__left)
-        right = self.__print_in_order_util(node.__right)
+        curr = str(node.employee_id)
+        left = self.__print_in_order_util(node.left)
+        right = self.__print_in_order_util(node.right)
         return curr + " " + left + " " + right
 
     def __print_post_order_util(self, node):
@@ -131,9 +132,9 @@ class EmployeeBinaryTree(object):
         """
         if node is None:
             return ""
-        left = self.__print_in_order_util(node.__left)
-        right = self.__print_in_order_util(node.__right)
-        curr = str(node.__employee_id)
+        left = self.__print_in_order_util(node.left)
+        right = self.__print_in_order_util(node.right)
+        curr = str(node.employee_id)
         return left + " " + right + " " + curr
 
     # print the left node, then the current node, then the right node.

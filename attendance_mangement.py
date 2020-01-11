@@ -47,17 +47,16 @@ class EmployeeAttendanceProblem(object):
         if file_name:
             file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'), file_name)
             with open(file_path, 'w' if rewrite else 'a') as f:
-                print(contents)
                 return f.writelines(contents)
         return None
 
-    def __populate_inputs(self, input_file_name):
+    def __populate_inputs(self, input_file):
         """
 
         :param input_file_name:
         :return:
         """
-        input_file_contents = EmployeeAttendanceProblem._read_input_file(input_file_name)
+        input_file_contents = EmployeeAttendanceProblem._read_input_file(input_file)
         for emp_id in input_file_contents:
             self.__readEmployeesRec(self.__emp_tree, emp_id.strip('\n'))
 
@@ -71,8 +70,9 @@ class EmployeeAttendanceProblem(object):
         :param emp_id:
         :return:
         """
-        if emp_tree:
+        if emp_tree and emp_id:
             emp_tree.add_node(emp_id)
+            print(emp_tree)
 
     def __getHeadcountRec(self, tree_node):
         """
@@ -90,11 +90,15 @@ class EmployeeAttendanceProblem(object):
         :return:
         """
         employee_node = emp_tree.contains(emp_id)
-        return employee_node.__swipe_count
+        if employee_node:
+            return employee_node.swipe_count
+        return 0
 
     def __howOften_Rec(self, emp_tree, emp_id):
         employee_node = emp_tree.contains(emp_id)
-        return employee_node.__swipe_count
+        if employee_node:
+            return employee_node.swipe_count
+        return 0
 
     def __frequentVisitorRec(self, emp_tree):
         pass
@@ -125,13 +129,13 @@ class EmployeeAttendanceProblem(object):
                     emp_id = operand[0]
                     val = self.__searchIDRec(self.__emp_tree, emp_id)
                     if val > 0:
-                        print('Employee id %s is present today.', emp_id)
+                        print('Employee id %s is present today.' % emp_id)
                     else:
-                        print('Employee id %s is absent today.', emp_id)
+                        print('Employee id %s is absent today.' % emp_id)
                 elif 'howoften' == operator:
                     emp_id = operand[0]
                     val = self.__howOften_Rec(self.__emp_tree, emp_id)
-                    if val is None:
+                    if val in [0, None]:
                         print('Employee id %s did not swipe today' % emp_id)
                     else:
                         if val % 2 != 0:
