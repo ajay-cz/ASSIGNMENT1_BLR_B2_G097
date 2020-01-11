@@ -119,7 +119,9 @@ class EmployeeAttendanceMonitoringSystem(object):
         :return:
         """
         freq_node = emp_tree.find_max_swipe_frequency()
-        return freq_node.employee_id, freq_node.swipe_count
+        if freq_node:
+            return freq_node.employee_id, freq_node.swipe_count
+        return None, None
 
     def __printRangePresent(self, start_emp_id, end_emp_id):
         """ This function prints the employee ids in the range StartId to EndId and how often they have entered the organization
@@ -179,8 +181,9 @@ class EmployeeAttendanceMonitoringSystem(object):
                 elif 'range' == operator:
                     start_id, end_id = operand
 
-            print('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
-            self.__output_file_contents.append('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
+            if self.__emp_tree.emp_count > 0:
+                print('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
+                self.__output_file_contents.append('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
 
             if start_id and end_id:
                 print('Range: %s to %s' % (start_id, end_id))

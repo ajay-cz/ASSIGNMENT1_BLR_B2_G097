@@ -202,6 +202,7 @@ class EmployeeBinaryTree(object):
         """
         if self.__root is None:
             self.__root = EmployeeBinaryTreeNode(data)
+            self.emp_count += 1
         else:
             self.__add_node_util(self.__root, data)
 
@@ -231,22 +232,23 @@ class EmployeeBinaryTree(object):
         :param root:
         :return:
         """
-        # leaf node - hence max node is same as current node
-        if root.left is None and root.right is None:
-            return root
-        # Non Leaf - with one child - right
-        if root.left is None:
-            return self.__compare_nodes(root, self.__max_freq_node(root.right))
-        # Non Leaf - with one child - left
-        elif root.right is None:
-            return self.__compare_nodes(root, self.__max_freq_node(root.left))
-        else:
-            # Non Leaf - with 2 child
-            max_child = self.__compare_nodes(
-                self.__max_freq_node(root.left),
-                self.__max_freq_node(root.right)
-            )
-            return self.__compare_nodes(root, max_child)
+        if root:
+            # leaf node - hence max node is same as current node
+            if root.left is None and root.right is None:
+                return root
+            # Non Leaf - with one child - right
+            if root.left is None:
+                return self.__compare_nodes(root, self.__max_freq_node(root.right))
+            # Non Leaf - with one child - left
+            elif root.right is None:
+                return self.__compare_nodes(root, self.__max_freq_node(root.left))
+            else:
+                # Non Leaf - with 2 child
+                max_child = self.__compare_nodes(
+                    self.__max_freq_node(root.left),
+                    self.__max_freq_node(root.right)
+                )
+                return self.__compare_nodes(root, max_child)
 
     def find_max_swipe_frequency(self):
         return self.__max_freq_node(self.__root)
