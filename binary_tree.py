@@ -10,9 +10,6 @@ class EmployeeBinaryTreeNode(object):
     def __init__(self, emp_id, left=None, right=None):
         """
         Constructor of a BinaryTree Node. The 
-        :param emp_id: 
-        :param left: 
-        :param right: 
         """
         self.left = None
         self.right = None
@@ -22,7 +19,6 @@ class EmployeeBinaryTreeNode(object):
     def __str__(self):
         """
         Prints the contents of the current node
-        :return:
         """
         return str(self.employee_id)
 
@@ -32,17 +28,18 @@ class EmployeeBinaryTree(object):
 
     """
 
+    IN_ORDER_TEMPLATE = "{left} {curr} {right}"
+    PRE_ORDER_TEMPLATE = "{curr} {left} {right}"
+    POST_ORDER_TEMPLATE = "{left} {right} {curr}"
+
     def __init__(self):
-        """
+        """ Constructor for the EmployeeBinaryTree.
 
         """
         self.__root = None
         self.emp_count = 0
 
-    IN_ORDER_TEMPLATE = "{left} {curr} {right}"
-    PRE_ORDER_TEMPLATE = "{curr} {left} {right}"
-    POST_ORDER_TEMPLATE = "{left} {right} {curr}"
-    EMP_COUNT_STATUS = "{emp_id}, {swipe_count}, {availability}"
+    '''
 
     def __print_pre_order_util(self, node):
         """
@@ -56,7 +53,7 @@ class EmployeeBinaryTree(object):
         left = self.__print_in_order_util(node.left)
         right = self.__print_in_order_util(node.right)
         return curr + " " + left + " " + right
-
+    
     def __print_post_order_util(self, node):
         """ Utility function to traverse & print the tree post-order.
 
@@ -70,11 +67,12 @@ class EmployeeBinaryTree(object):
         curr = str(node.employee_id)
         return left + " " + right + " " + curr
 
+    '''
+
     def __print_in_order_util(self, node):
         """
         Utility function to traverse & print the tree in-order.
-        :param node:
-        :return:
+
         """
 
         if node is None:
@@ -88,9 +86,7 @@ class EmployeeBinaryTree(object):
     def __print_tree_util(self, node, template):
         """
         Utility function to print the Tree formation
-        :param node:
-        :param template:
-        :return:
+
         """
         if node is None:
             return ""
@@ -102,25 +98,19 @@ class EmployeeBinaryTree(object):
     def __search_util(self, node, value):
         """ Utility function to Search the Binary Tree Nodes for a value
 
-        :param node:
-        :param value:
-        :return:
         """
         if node is None:
             return None
-        if node.employee_id == value:
+        if int(node.employee_id) == int(value):
             return node
-        if value < node.employee_id:
+        if int(value) < int(node.employee_id):
             return self.__search_util(node.left, value)
-        if value > node.employee_id:
+        if int(value) > int(node.employee_id):
             return self.__search_util(node.right, value)
 
     def __add_node_util(self, node, data):
         """ Utility function to Add a Binary Tree Nodes to the tree
 
-        :param node:
-        :param data:
-        :return:
         """
         if data < node.employee_id:
             if node.left is None:
@@ -140,8 +130,7 @@ class EmployeeBinaryTree(object):
     def __print_inorder_range_util(self, node, min_value=None, max_value=None):
         """
         Utility function to traverse & print the tree in-order.
-        :param node:
-        :return:
+
         """
 
         if node is None:
@@ -158,7 +147,8 @@ class EmployeeBinaryTree(object):
 
         if min_value and max_value:
             if int(min_value) <= int(node.employee_id) <= int(max_value):
-                output += '%s,%s,%s\n' % (str(node.employee_id), str(node.swipe_count), 'Out' if node.swipe_count % 2 == 0 else 'In')
+                output += '%s,%s,%s\n' % (
+                str(node.employee_id), str(node.swipe_count), 'Out' if node.swipe_count % 2 == 0 else 'In')
 
         if max_value:
             if node.right and int(node.employee_id) < int(max_value):
@@ -167,6 +157,11 @@ class EmployeeBinaryTree(object):
         return output
 
     def print_inorder_range(self, min_value=None, max_value=None):
+        """ Prints the In-Order Traversed form of the Tree between the provided range of element
+        Prints the left node, then the current node, then the right node. This results in all the data in the tree
+        being printed in sorted order.
+
+        """
         return self.__print_inorder_range_util(self.__root, min_value, max_value)
 
     def print_in_order_traversal(self):
@@ -174,10 +169,10 @@ class EmployeeBinaryTree(object):
         Prints the left node, then the current node, then the right node. This results in all the data in the tree
         being printed in sorted order.
 
-        :return:
         """
         return self.__print_tree_util(self.__root, self.IN_ORDER_TEMPLATE)
 
+    '''
     def print_pre_order_traversal(self):
         """  Prints the Pre-Order Traversed form of the Tree.
         Prints the current node, then the left node,  then the right node.  Print each node before it's sub tree
@@ -193,12 +188,12 @@ class EmployeeBinaryTree(object):
         :return:
         """
         return "[" + self.__print_post_order_util(self.__root) + "]"
+    
+    '''
 
     def add_node(self, data):
-        """
-
-        :param data:
-        :return:
+        """ This method adds a EmployeeBinaryTreeNode to the EmployeeBinaryTree.
+        We have assumed this tree to be a BST
         """
         if self.__root is None:
             self.__root = EmployeeBinaryTreeNode(data)
@@ -207,19 +202,12 @@ class EmployeeBinaryTree(object):
             self.__add_node_util(self.__root, data)
 
     def contains(self, value):
-        """
-
-        :param value:
-        :return:
+        """ Searches for a node in the EmployeeTree. The search happens based on the employee id
         """
         return self.__search_util(self.__root, value)
 
     def __compare_nodes(self, node1, node2):
         """ Utility method to compare the contents of 2 nodes
-
-        :param node1:
-        :param node2:
-        :return:
         """
         if node1.swipe_count >= node2.swipe_count:
             return node1
@@ -228,9 +216,6 @@ class EmployeeBinaryTree(object):
 
     def __max_freq_node(self, root):
         """ Utility  recursive method to find the employee with max swipes
-
-        :param root:
-        :return:
         """
         if root:
             # leaf node - hence max node is same as current node
@@ -253,10 +238,8 @@ class EmployeeBinaryTree(object):
     def find_max_swipe_frequency(self):
         return self.__max_freq_node(self.__root)
 
-    # default to printing the tree using an "in order" traversal.
-    def __str__(self):
-        """
 
-        :return:
+    def __str__(self):
+        """ default to printing the tree using an "in order" traversal.
         """
         return self.print_in_order_traversal()

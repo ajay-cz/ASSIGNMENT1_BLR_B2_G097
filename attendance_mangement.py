@@ -22,8 +22,6 @@ class EmployeeAttendanceMonitoringSystem(object):
     def __init__(self, input_file_name):
         """ Constructor for the Employee
 
-        :param input_file_name:
-        :param output_file_name:
         """
         self.__emp_tree = EmployeeBinaryTree()
         self.__output_file_contents = []
@@ -33,11 +31,9 @@ class EmployeeAttendanceMonitoringSystem(object):
     def _read_input_file(file_name):
         """ Utility method to read from a file
 
-        :param file_name:
-        :return:
         """
         if file_name:
-            file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'), file_name)
+            file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data_files'), file_name)
             with open(file_path, 'r') as f:
                 # return [str(line.strip()) for line in f.readlines()]
                 return f.readlines()
@@ -45,13 +41,11 @@ class EmployeeAttendanceMonitoringSystem(object):
 
     @staticmethod
     def _write_output_file(file_name, contents, rewrite=False):
-        """
+        """ Utility method to write to a file
 
-        :param file_name:
-        :return:
         """
         if file_name:
-            file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data'), file_name)
+            file_path = os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data_files'), file_name)
             with open(file_path, 'w' if rewrite else 'a') as f:
                 return f.writelines("%s\n" % l for l in contents)
         return None
@@ -59,12 +53,11 @@ class EmployeeAttendanceMonitoringSystem(object):
     def __populate_inputs(self, input_file):
         """
 
-        :param input_file_name:
-        :return:
         """
         input_file_contents = EmployeeAttendanceMonitoringSystem._read_input_file(input_file)
         for emp_id in input_file_contents:
             self.__readEmployeesRec(self.__emp_tree, emp_id.strip('\n'))
+        # print(self.__emp_tree)
 
     def __readEmployeesRec(self, emp_tree, emp_id):
         """
@@ -72,27 +65,22 @@ class EmployeeAttendanceMonitoringSystem(object):
         One employee id should be populated per line (in the input text file) indicating their swipe (entry or exit).
         The input data is used to populate the tree. If the employee id is already added to the tree,
         then the attendance counter is incremented for every subsequent occurrence of that employee id in the input file.
-        :param emp_tree:
-        :param emp_id:
-        :return:
+
         """
         if emp_tree and emp_id:
-            emp_tree.add_node(emp_id)
+            if emp_id.isdigit():
+                emp_tree.add_node(int(emp_id))
+            # print(emp_tree)
 
     def __getHeadcountRec(self, tree_node):
         """ This function counts the number of unique IDs stored in the tree and prints the employee headcount for the day
 
-        :param tree_node:
-        :return:
         """
         return tree_node.emp_count
 
     def __searchIDRec(self, emp_tree, emp_id):
         """ This function searches whether a particular employee has attended today or not.
 
-        :param emp_tree:
-        :param emp_id:
-        :return:
         """
         employee_node = emp_tree.contains(emp_id)
         if employee_node:
@@ -103,9 +91,6 @@ class EmployeeAttendanceMonitoringSystem(object):
         """ This function counts the number of times a particular employee swiped today and if the employee is currently
          in the office or outside
 
-        :param emp_tree:
-        :param emp_id:
-        :return:
         """
         employee_node = emp_tree.contains(emp_id)
         if employee_node:
@@ -115,8 +100,6 @@ class EmployeeAttendanceMonitoringSystem(object):
     def __frequentVisitorRec(self, emp_tree):
         """ This function searches for the employee who has swiped the most number of times
 
-        :param emp_tree:
-        :return:
         """
         freq_node = emp_tree.find_max_swipe_frequency()
         if freq_node:
@@ -126,23 +109,18 @@ class EmployeeAttendanceMonitoringSystem(object):
     def __printRangePresent(self, start_emp_id, end_emp_id):
         """ This function prints the employee ids in the range StartId to EndId and how often they have entered the organization
 
-        :param start_emp_id:
-        :param end_emp_id:
-        :return:
         """
         return self.__emp_tree.print_inorder_range(min_value=start_emp_id, max_value=end_emp_id)
 
     def parseCommands(self, file_name='promptsPS1.txt'):
-        """
+        """ This function reads from the PRovided prompts file and executes the corresponding commands
 
-        :param file_name:
-        :return:
         """
         try:
             prompt_file_contents = EmployeeAttendanceMonitoringSystem._read_input_file(file_name)
             query_list = [(line.rstrip('\n').split(':')) for line in prompt_file_contents]
 
-            print("Total number of employees today: %s" % self.__getHeadcountRec(self.__emp_tree))
+            # print("Total number of employees today: %s" % self.__getHeadcountRec(self.__emp_tree))
             self.__output_file_contents.append("Total number of employees today: %s" % self.__getHeadcountRec(self.__emp_tree))
 
             start_id, end_id = None, None
@@ -152,28 +130,28 @@ class EmployeeAttendanceMonitoringSystem(object):
                 operand = command[1:]
 
                 if 'searchid' == operator:
-                    emp_id = operand[0]
+                    emp_id = operand[0].strip()
                     val = self.__searchIDRec(self.__emp_tree, emp_id)
                     if val > 0:
-                        print('Employee id "%s" is present today.' % emp_id)
+                        # print('Employee id "%s" is present today.' % emp_id)
                         self.__output_file_contents.append('Employee id "%s" is present today.' % emp_id)
                     else:
-                        print('Employee id "%s" is absent today.' % emp_id)
+                        # print('Employee id "%s" is absent today.' % emp_id)
                         self.__output_file_contents.append('Employee id "%s" is absent today.' % emp_id)
 
                 elif 'howoften' == operator:
-                    emp_id = operand[0]
+                    emp_id = operand[0].strip()
                     val = self.__howOften_Rec(self.__emp_tree, emp_id)
                     if val in [0, None]:
-                        print('Employee id "%s" did not swipe today' % emp_id)
+                        # print('Employee id "%s" did not swipe today' % emp_id)
                         self.__output_file_contents.append('Employee id "%s" did not swipe today' % emp_id)
                     else:
                         if val % 2 != 0:
-                            print('Employee id "%s" swiped "%s" times today and is currently in office' % (emp_id, val))
+                            # print('Employee id "%s" swiped "%s" times today and is currently in office' % (emp_id, val))
                             self.__output_file_contents.append(
                                 'Employee id "%s" swiped "%s" times today and is currently in office' % (emp_id, val))
                         else:
-                            print('Employee id %s swiped %s times today and is currently not in office' % (emp_id, val))
+                            # print('Employee id %s swiped %s times today and is currently not in office' % (emp_id, val))
                             self.__output_file_contents.append(
                                 'Employee id "%s" swiped "%s" times today and is currently not in office' % (
                                     emp_id, val))
@@ -182,29 +160,33 @@ class EmployeeAttendanceMonitoringSystem(object):
                     start_id, end_id = operand
 
             if self.__emp_tree.emp_count > 0:
-                print('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
+                # print('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
                 self.__output_file_contents.append('Employee id "%s" swiped the most number of times today with a count of "%s"' % self.__frequentVisitorRec(self.__emp_tree))
 
             if start_id and end_id:
-                print('Range: %s to %s' % (start_id, end_id))
-                print('Employee attendance:')
-                print(self.__printRangePresent(start_id, end_id))
+                start_id = start_id.strip()
+                end_id = end_id.strip()
+                # print('Range: %s to %s' % (start_id, end_id))
+                # print('Employee attendance:')
+                # print(self.__printRangePresent(start_id, end_id))
 
                 self.__output_file_contents.append('Range: %s to %s' % (start_id, end_id))
                 self.__output_file_contents.append('Employee attendance:')
                 self.__output_file_contents.append(self.__printRangePresent(start_id, end_id))
 
+
         except ValueError as ve:
-            LOG.error("Error in value given in the prompt file: {0}".format(ve))
+            LOG.error("Numeric Value expected as an Employee ID (Error in value given in the prompt file: {0})".format(ve))
         except IOError as ie:
             LOG.error("Error in prompt file: {0} - {1}".format(file_name, str(ie)))
 
-    def generate_output_file(self, output_file_name):
+    def generate_output_file(self, output_file_name, overwrite_output_file=True):
         if self.__output_file_contents:
-            EmployeeAttendanceMonitoringSystem._write_output_file(output_file_name, self.__output_file_contents, rewrite=True)
+            EmployeeAttendanceMonitoringSystem._write_output_file(output_file_name, self.__output_file_contents, rewrite=overwrite_output_file)
+            print("\nPlease refer to %s for the overall attendance for the given input files." % os.path.join(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data_files', output_file_name))))
 
 
 if __name__ == '__main__':
     org_emp_attendance = EmployeeAttendanceMonitoringSystem('inputPS1.txt')
     org_emp_attendance.parseCommands(file_name='promptsPS1.txt')
-    org_emp_attendance.generate_output_file('output.txt')
+    org_emp_attendance.generate_output_file('output.txt', overwrite_output_file=True)
