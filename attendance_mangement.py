@@ -51,7 +51,7 @@ class EmployeeAttendanceMonitoringSystem(object):
         return None
 
     def __populate_inputs(self, input_file):
-        """
+        """ Utility method to read the inputs from the input file and creates an Employee Node & populates the Tree
 
         """
         input_file_contents = EmployeeAttendanceMonitoringSystem._read_input_file(input_file)
@@ -119,7 +119,6 @@ class EmployeeAttendanceMonitoringSystem(object):
         try:
             prompt_file_contents = EmployeeAttendanceMonitoringSystem._read_input_file(file_name)
             query_list = [(line.rstrip('\n').split(':')) for line in prompt_file_contents]
-
             # print("Total number of employees today: %s" % self.__getHeadcountRec(self.__emp_tree))
             self.__output_file_contents.append("Total number of employees today: %s" % self.__getHeadcountRec(self.__emp_tree))
 
@@ -181,12 +180,20 @@ class EmployeeAttendanceMonitoringSystem(object):
             LOG.error("Error in prompt file: {0} - {1}".format(file_name, str(ie)))
 
     def generate_output_file(self, output_file_name, overwrite_output_file=True):
+        """ A Utility methods that writes the contents of the output to a file
+
+        """
         if self.__output_file_contents:
             EmployeeAttendanceMonitoringSystem._write_output_file(output_file_name, self.__output_file_contents, rewrite=overwrite_output_file)
             print("\nPlease refer to %s for the overall attendance for the given input files." % os.path.join(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data_files', output_file_name))))
 
 
 if __name__ == '__main__':
-    org_emp_attendance = EmployeeAttendanceMonitoringSystem('inputPS1.txt')
-    org_emp_attendance.parseCommands(file_name='promptsPS1.txt')
-    org_emp_attendance.generate_output_file('output.txt', overwrite_output_file=True)
+
+    input_file_name = 'inputPS1.txt'
+    output_file_name = 'output.txt'
+    prompt_file_name = 'promptsPS1.txt'
+
+    org_emp_attendance = EmployeeAttendanceMonitoringSystem(input_file_name)
+    org_emp_attendance.parseCommands(file_name=prompt_file_name)
+    org_emp_attendance.generate_output_file(output_file_name, overwrite_output_file=True)
