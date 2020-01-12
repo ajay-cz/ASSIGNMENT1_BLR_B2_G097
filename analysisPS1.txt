@@ -1,14 +1,16 @@
 #************************************************************************#
-#      RUNNING TIME ASSESSMENT OF EMPLOYEE ATTENDANCE MONITORING SYSTEM          #
+#      RUNNING TIME ASSESSMENT OF EMPLOYEE ATTENDANCE MONITORING SYSTEM  #
 #************************************************************************#
 
 Assumptions:
+===========
     For this particular problem, the usecases involve Searching & listing the employees in sorted order. Hence, we have
     implemented a BST implementation of the Binary Tree ADT.
 
     Asymptotic notation of runtime has been presented below
 
-Assessment:
+Runtime Analysis of the methods implemented:
+===========================================
 
 1. How many employees came today?
 
@@ -65,7 +67,8 @@ whether they are inside or outside office?
                   child tree, if it doesn't fall under the range.
 
 
-Inputs:
+Overall Analysis:
+================
 
   1) EmployeeTree Population
       Running time : - O(n^2)
