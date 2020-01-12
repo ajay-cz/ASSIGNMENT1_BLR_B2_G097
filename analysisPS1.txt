@@ -1,5 +1,5 @@
 #************************************************************************#
-#    RUNNING TIME ANALYSIS OF EMPLOYEE ATTENDANCE MONITORING SYSTEM      #
+#    RUNNING TIME ANALYSIS OF EMPLOYEE ATTENDANCE MANAGEMENT SYSTEM      #
 #************************************************************************#
 
 Assumptions:
