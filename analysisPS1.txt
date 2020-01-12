@@ -1,5 +1,5 @@
 #************************************************************************#
-#      RUNNING TIME ASSESSMENT OF EMPLOYEE ATTENDANCE MONITORING SYSTEM  #
+#    RUNNING TIME ANALYSIS OF EMPLOYEE ATTENDANCE MONITORING SYSTEM      #
 #************************************************************************#
 
 Assumptions:
@@ -31,7 +31,6 @@ Runtime Analysis of the methods implemented:
                   comparisons to find a particular node. A binary serch tree can also degenerate to a linked list,
                   reducing the search time to O(n).
 
-
 3. How often did an employee enter into the office?
 
   Method		: __howOften_Rec
@@ -43,7 +42,6 @@ Runtime Analysis of the methods implemented:
                   where h is the height of the tree. Since a binary search tree with n nodes has a minimum of O(log n)
                   levels, it takes at least O(log n) comparisons to find a particular node. A binary serch tree can also
                   degenerate to a linked list, reducing the search time to O(n).
-
 
 4. Which employee moves out of office the greatest number of times?
 
@@ -65,7 +63,6 @@ whether they are inside or outside office?
 
   Explanation 	: In order traversal with Max & Min range was implemented. This way, we will not have to traverse a
                   child tree, if it doesn't fall under the range.
-
 
 Overall Analysis:
 ================
