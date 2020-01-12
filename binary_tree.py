@@ -1,5 +1,4 @@
-from abc import ABC
-
+# -*- coding: utf-8 -*-
 
 class EmployeeBinaryTreeNode(object):
     """
@@ -148,7 +147,7 @@ class EmployeeBinaryTree(object):
         if min_value and max_value:
             if int(min_value) <= int(node.employee_id) <= int(max_value):
                 output += '%s,%s,%s\n' % (
-                str(node.employee_id), str(node.swipe_count), 'Out' if node.swipe_count % 2 == 0 else 'In')
+                    str(node.employee_id), str(node.swipe_count), 'Out' if node.swipe_count % 2 == 0 else 'In')
 
         if max_value:
             if node.right and int(node.employee_id) < int(max_value):
@@ -237,7 +236,6 @@ class EmployeeBinaryTree(object):
 
     def find_max_swipe_frequency(self):
         return self.__max_freq_node(self.__root)
-
 
     def __str__(self):
         """ default to printing the tree using an "in order" traversal.
