@@ -192,7 +192,7 @@ class EmployeeAttendanceMonitoringSystem(object):
 if __name__ == '__main__':
 
     input_file_name = 'inputPS1.txt'
-    output_file_name = 'output.txt'
+    output_file_name = 'outputPS1.txt'
     prompt_file_name = 'promptsPS1.txt'
 
     org_emp_attendance = EmployeeAttendanceMonitoringSystem(input_file_name)
