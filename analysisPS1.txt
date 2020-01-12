@@ -4,10 +4,9 @@
 
 Assumptions:
 ===========
-    For this particular problem, the usecases involve Searching & listing the employees in sorted order. Hence, we have
-    implemented a BST implementation of the Binary Tree ADT.
-
-    Asymptotic notation of runtime has been presented below
+    For this particular problem, usecases involve searching & listing employees in sorted order. Hence, we have
+    implemented a BST form of the Binary Tree ADT.
+    Asymptotic Notations of runtime analysis have been presented below. 
 
 Runtime Analysis of the methods implemented:
 ===========================================
@@ -16,52 +15,41 @@ Runtime Analysis of the methods implemented:
 
   Method		: __getHeadcountRec
   Running Time	: O(1)
-  Explanation 	: In the Binary Tree implementation we have used an instance attribute 'emp_count' that gets incremented
+  Explaination 	: In the Binary Tree implementation, we have used an instance attribute 'emp_count' that gets incremented
                   for each node that gets added to the Tree. It also indicates the total number of Nodes in the tree.
-				  Hence we can get __getHeadcountRec info on constant time O(1). It uses a constant Space as well.
+		  Hence we can get __getHeadcountRec info on constant time O(1). It uses a constant Space as well.
 
 2. Did a particular employee come today?
 
   Method		: __searchIDRec
-  Running Time	: O(n)  - n is size of the tree,
-                  more precisely its O(h) , h - height of the tree
-
-  Explanation 	: Searching in a BST has O(h) worst-case runtime complexity, where h is the height of the tree.
+  Running Time	: O(n)  - n is size of the tree. To be precise, its O(h) where h - height of the tree
+  Explaination 	: Searching in a BST has O(h) worst-case runtime complexity, where h is the height of the tree.
                   Since a binary search tree with n nodes has a minimum of O(log n) levels, it takes at least O(log n)
-                  comparisons to find a particular node. A binary serch tree can also degenerate to a linked list,
-                  reducing the search time to O(n).
+                  comparisons to find a particular node. 
 
 3. How often did an employee enter into the office?
 
   Method		: __howOften_Rec
-  Running Time	: O(n)  - n is size of the tree,
-                  more precisely its O(h) , h - height of the tree
-
-  Explanation 	: Each Node has a counter that represents the "entry" to or "exit" from the office. To count the frequency,
-                  we would have to search the Tree.Searching in a BST has O(h) worst-case runtime complexity,
+  Running Time	: O(n)  - n is size of the tree. To be precise, its O(h) where h - height of the tree
+  Explaination 	: Each Node has a counter that represents the "entry" to or "exit" from the office. To count the frequency,
+                  we would have to search the Tree. Searching a BST has O(h) worst-case runtime complexity,
                   where h is the height of the tree. Since a binary search tree with n nodes has a minimum of O(log n)
-                  levels, it takes at least O(log n) comparisons to find a particular node. A binary serch tree can also
-                  degenerate to a linked list, reducing the search time to O(n).
+                  levels, it takes at least O(log n) comparisons to find a particular node. 
 
 4. Which employee moves out of office the greatest number of times?
 
   Method		: __frequentVisitorRec
-  Running Time	: O(n)  - n is size of the tree ie., the number of employees
-
-
-  Explanation 	: To identify the most frequent visitor, we will have to visit all the employee nodes and comparing the
-                  swipe_count of each of all the nodes to identify the maximum swipe_count from them
-
+  Running Time	: O(n)  - n is size of the tree i.e. number of employees
+  Explaination 	: To identify the most frequent visitor, we need to visit all employee nodes in tree, compare them to
+                  swipe_count of each of those nodes and then identify the maximum swipe_count. 
 
 5. Which employee ids within a range of IDs attended office, the attendance counter for them, and
 whether they are inside or outside office?
 
   Method		: __printRangePresent
-  Running Time	: O(n)  - n is size of the tree ie., the number of employees.
+  Running Time	: O(n)  - n is size of the tree i.e. the number of employees.
                   However, the running time would be better than O(n) as we would be searching within the min-max range
-
-
-  Explanation 	: In order traversal with Max & Min range was implemented. This way, we will not have to traverse a
+  Explaination 	: "Inorder" traversal with Max & Min range was implemented. This way, we will not have to traverse a
                   child tree, if it doesn't fall under the range.
 
 Overall Analysis:
@@ -69,13 +57,12 @@ Overall Analysis:
 
   1) EmployeeTree Population
       Running time : - O(n^2)
-
       Explanation :     The worst case time complexity of search and insert operations is O(h) where h is height of
                         Binary Search Tree. In worst case, we may have to travel from root to the deepest leaf node.
-                        The height of a skewed tree may become n and the time complexity insert operation may become O(n).
+                        The height of a skewed tree may become n and the time complexity insert operation may become O(n)
                         & we have to insert 'n' number of rows in inputPS1.txt file
 
-  2) Number of commands in promptsPS1.tx file
+  2) Number of commands in promptsPS1.txt file
      Running time :  Worst case running time complexity of the given list of commands is O(n) , n = size of the tree.
                      While running r operations on worst case would take
                      O(r * n)
